@@ -45,15 +45,23 @@ export default function AddTodo() {
   return (
     <section>
       {errorResult}
-      <label htmlFor="name">Name</label>
+      <label 
+        htmlFor="todo-name"
+        data-testid="todo-name-label"
+      >Todo name</label>
       <input 
-        id="name" 
-        name="name"
+        id="todo-name"
+        type="text" 
+        name="todo-name"
         autoFocus
         onChange={(e: ChangeEvent<HTMLInputElement>) => handleTodoNameChange(e.target.value)}
         value={todoName}
+        data-testid='todo-name-input'
       />
-      <button onClick={handleAddTodo}>Add Todo</button>
+      <button 
+        onClick={handleAddTodo}
+        data-testid="add-todo-button"
+      >Add Todo</button>
     </section>
   )
 }

@@ -4,8 +4,12 @@ import { useTodoContext } from "../../contexts/TodoContext";
 export default function TodoList() {
   const { todos } = useTodoContext();
 
-  if (!todos) {
-    return <p>There are no tasks to do yet.</p>
+  if (todos.length === 0) {
+    return (
+      <p
+        data-testid="no-todos-text"
+      >There are no tasks to do yet.</p>
+    )
   }
 
   const todoItems = todos.map((todo, idx) => (
@@ -13,6 +17,8 @@ export default function TodoList() {
   ))
 
   return (
-    <ul>{todoItems}</ul>
+    <ul
+      data-testid='todo-list'
+    >{todoItems}</ul>
   )
 }

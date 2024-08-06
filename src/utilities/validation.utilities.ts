@@ -10,7 +10,7 @@ export function validateTodo({ todoName, todos }: IValidateTodoParams): string[]
   const errors: string[] = []
 
   // Check if the todo name is NOT empty
-  if (!todoName.trim()) {
+  if (!todoName) {
     errors.push("Todo name cannot be empty")
     return errors;
   }

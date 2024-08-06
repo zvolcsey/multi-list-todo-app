@@ -8,6 +8,10 @@ interface ITodoItemProps {
 export default function TodoItem({ children }: ITodoItemProps) {
 
   return (
-    <li>{children}</li>
+    <li
+      data-testid="todo-item"
+    >
+      {children}
+    </li>
   )
 }
