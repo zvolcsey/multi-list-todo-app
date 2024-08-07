@@ -5,8 +5,6 @@ import * as TodoContextModule from '../../contexts/TodoContext';
 
 import type { ITodo } from '../../app/types';
 
-//vi.mock('../../contexts/TodoContext')
-
 describe('TodoList component', () => {
   describe('Basic functionality', () => {
     it('displays the list element if there are todos', () => {
