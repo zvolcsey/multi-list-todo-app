@@ -6,7 +6,7 @@ export default function AddTodo() {
   const { todos, addTodo } = useTodoContext();
 
   const [todoName, setTodoName] = useState<string>('');
-  const [errors, setErrors] = useState<string[]>([]);
+  const [errors, setErrors] = useState<string[] | null>(null);
 
   function handleTodoNameChange(newTodoName: string) {
     // Save the user input in the todoName state
@@ -15,10 +15,10 @@ export default function AddTodo() {
 
   function handleAddTodo() {
     // Validate todo element
-    const errors = validateTodo({ todoName, todos })
+    const errorsResult = validateTodo({ todoName, todos })
 
-    if (errors.length > 0) {
-      setErrors(errors);
+    if (errorsResult.length > 0) {
+      setErrors(errorsResult);
       setTodoName('')
       return;
     }
@@ -28,6 +28,11 @@ export default function AddTodo() {
 
     // Send the current todoName to the TodoContext state
     addTodo(newTodo)
+    
+    // Reset the error state if there are errors from previous todo addition
+    if (errors) {
+      setErrors(null)
+    }
 
     // Reset the todoName state
     setTodoName('');
@@ -36,10 +41,21 @@ export default function AddTodo() {
   let errorResult: ReactNode | null = null
   if (errors) {
     const errorItems = errors.map((error, idx) => (
-      <li key={idx}>{error}</li>
+      <li 
+        key={idx}
+        data-testid='error-item'
+      >
+        {error}
+      </li>
     ))
     
-    errorResult = <ul>{errorItems}</ul>
+    errorResult = (
+      <ul
+        data-testid='error-list'
+      >
+        {errorItems}
+      </ul>
+    )
   }
 
   return (
