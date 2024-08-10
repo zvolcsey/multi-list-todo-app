@@ -5,18 +5,27 @@ import * as TodoContextModule from "../../contexts/TodoContext"
 
 describe('AddTodo component', () => {
   describe('Basic functionality', () => {
-    it('displays the input field', () => {
+    it('ensures that the input field is present in the document and visible', () => {
       // Render the "AddTodo" component
       render(<AddTodo />)
 
       // Find the todo name input element
       const todoNameInputElement = screen.getByTestId('todo-name-input')
 
-      //Check if the input element is in the document
+      // Check if the input element is present in the document
       expect(todoNameInputElement).toBeInTheDocument()
+
+      // Check if the input element is visible to the user
+      expect(todoNameInputElement).toHaveClass('border')
+      expect(todoNameInputElement).toHaveClass('text-white')
+
+      // Check that the input element does not have classes that would make it invisible
+      expect(todoNameInputElement).not.toHaveClass('hidden')
+      expect(todoNameInputElement).not.toHaveClass('invisible')
+      expect(todoNameInputElement).not.toHaveClass('opacity-0')
     })
     
-    it('displays the "Add todo" button', () => {
+    it('ensures the "Add Todo" button is in the document and visible', () => {
       // Render "AddTodo" component
       render(<AddTodo />)
       
@@ -25,6 +34,15 @@ describe('AddTodo component', () => {
 
       // Check if the button element is in the document
       expect(addTodoButtonElement).toBeInTheDocument()
+
+      // Check if the button element is visible to the user
+      expect(addTodoButtonElement).toHaveClass('bg-sky-700')
+      expect(addTodoButtonElement).toHaveClass('text-white')
+      
+      // Check that the input element does not have classes that would make it invisible
+      expect(addTodoButtonElement).not.toHaveClass('hidden')
+      expect(addTodoButtonElement).not.toHaveClass('invisible')
+      expect(addTodoButtonElement).not.toHaveClass('opacity-0')
     })
 
     it('triggers the addition of todo item when "Add todo" button is clicked and clears the input field', async () => {
@@ -57,7 +75,7 @@ describe('AddTodo component', () => {
       vi.restoreAllMocks()
     })
 
-    it('ensures the label is correctly associated with the input field', () => {
+    it('ensures the label is correctly associated with the input field and visible', () => {
       // Render the "AddTodo" component
       render(<AddTodo />)
 
@@ -65,9 +83,19 @@ describe('AddTodo component', () => {
       const todoNameLabelElement = screen.getByTestId('todo-name-label')
       const todoNameInputElement = screen.getByTestId('todo-name-input')
 
-      // Check if the label and input element are in the document
+      // Check if the label and input element are present in the document
       expect(todoNameLabelElement).toBeInTheDocument()
       expect(todoNameInputElement).toBeInTheDocument()
+
+      // Check if the label element is visible to the user
+      expect(todoNameLabelElement).toHaveClass('block')
+      expect(todoNameLabelElement).toHaveClass('uppercase')
+      
+      // Check that the input element does not have classes that would make it invisible
+      expect(todoNameLabelElement).not.toHaveClass('hidden')
+      expect(todoNameLabelElement).not.toHaveClass('invisible')
+      expect(todoNameLabelElement).not.toHaveClass('opacity-0')
+
       // Check if the label elements's for attribute is the same as the input's id
       expect(todoNameLabelElement).toHaveAttribute('for', todoNameInputElement.id)
     })
@@ -111,8 +139,16 @@ describe('AddTodo component', () => {
       // Try to find the error list element
       const errorListElement = screen.queryByTestId('error-list')
 
-      //Check if the error list element is in the document
+      // Check if the error list element is present in the document
       expect(errorListElement).toBeInTheDocument()
+
+      // Check if the error list element is visible to the user
+      expect(errorListElement).toHaveClass('border-red-400')
+      
+      // Check that the error list element does not have classes that would make it invisible
+      expect(errorListElement).not.toHaveClass('hidden')
+      expect(errorListElement).not.toHaveClass('invisible')
+      expect(errorListElement).not.toHaveClass('opacity-0')
 
       // Restore the original implementation
       vi.restoreAllMocks()
@@ -144,9 +180,17 @@ describe('AddTodo component', () => {
 
       // Try to find the error list element
       let errorListElement = screen.queryByTestId('error-list')
-
-      //Check if the error list element is in the document
+      
+      // Check if the error list element is present in the document
       expect(errorListElement).toBeInTheDocument()
+
+      // Check if the error list element is visible to the user
+      expect(errorListElement).toHaveClass('border-red-400')
+      
+      // Check that the error list element does not have classes that would make it invisible
+      expect(errorListElement).not.toHaveClass('hidden')
+      expect(errorListElement).not.toHaveClass('invisible')
+      expect(errorListElement).not.toHaveClass('opacity-0')
 
       // Write a valid todo in the input field and click the button
       await userEvent.type(todoNameInputElement, validTodo)
@@ -155,7 +199,7 @@ describe('AddTodo component', () => {
       // Try to find the error list element
       errorListElement = screen.queryByTestId('error-list')
 
-      //Check if the error list element is NOT in the document
+      //Check if the error list element is NOT present in the document
       expect(errorListElement).not.toBeInTheDocument()
 
       // Restore the original implementation
@@ -189,10 +233,22 @@ describe('AddTodo component', () => {
       // Try to find the error list and item elements
       let errorListElement = screen.queryByTestId('error-list')
       let errorItemElements = screen.queryAllByTestId('error-item')
-
-      //Check if the error list and item elements are in the document
+      
+      // Check if the error list element is present in the document
       expect(errorListElement).toBeInTheDocument()
+
+      // Check if the error list and item elements are visible to the user
+      expect(errorListElement).toHaveClass('border-red-400')
       expect(errorItemElements[0].textContent).toContain('between');
+      expect(errorItemElements[0]).toHaveClass('text-red-400')
+      
+      // Check that the error list and item elements do not have classes that would make it invisible
+      expect(errorListElement).not.toHaveClass('hidden')
+      expect(errorListElement).not.toHaveClass('invisible')
+      expect(errorListElement).not.toHaveClass('opacity-0')
+      expect(errorItemElements[0]).not.toHaveClass('hidden')
+      expect(errorItemElements[0]).not.toHaveClass('invisible')
+      expect(errorItemElements[0]).not.toHaveClass('opacity-0')
 
       // Write a valid todo in the input field and click the button
       await userEvent.type(todoNameInputElement, invalidTodoTwo)
@@ -202,9 +258,22 @@ describe('AddTodo component', () => {
       errorListElement = screen.queryByTestId('error-list')
       errorItemElements = screen.queryAllByTestId('error-item')
 
-      //Check if the error list and item elements are in the document
+      // Check if the error list element is present in the document
       expect(errorListElement).toBeInTheDocument()
+
+      // Check if the error list and item elements are visible to the user
+      expect(errorListElement).toHaveClass('border-red-400')
       expect(errorItemElements[0].textContent).toContain('exists');
+      expect(errorItemElements[0]).toHaveClass('text-red-400')
+      
+      // Check that the error list and item elements do not have classes that would make it invisible
+      expect(errorListElement).not.toHaveClass('hidden')
+      expect(errorListElement).not.toHaveClass('invisible')
+      expect(errorListElement).not.toHaveClass('opacity-0')
+      expect(errorItemElements[0]).not.toHaveClass('hidden')
+      expect(errorItemElements[0]).not.toHaveClass('invisible')
+      expect(errorItemElements[0]).not.toHaveClass('opacity-0')
+
 
       // Restore the original implementation
       vi.restoreAllMocks()

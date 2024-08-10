@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, type ReactNode } from "react"
+import { ChangeEvent, FormEvent, useState, type ReactNode } from "react"
 import { useTodoContext } from "../../contexts/TodoContext";
 import { validateTodo } from "../../utilities/validation.utilities";
 
@@ -13,7 +13,10 @@ export default function AddTodo() {
     setTodoName(newTodoName)
   }
 
-  function handleAddTodo() {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    // Prevent default behavior
+    e.preventDefault()
+
     // Validate todo element
     const errorsResult = validateTodo({ todoName, todos })
 
@@ -43,15 +46,17 @@ export default function AddTodo() {
     const errorItems = errors.map((error, idx) => (
       <li 
         key={idx}
-        data-testid='error-item'
+        className="pb-4 last-of-type:p-0 text-red-400"
+        data-testid="error-item"
       >
         {error}
       </li>
     ))
     
     errorResult = (
-      <ul
-        data-testid='error-list'
+      <ul 
+        className="list-none mb-4 p-4 border border-solid border-red-400 rounded"
+        data-testid="error-list"
       >
         {errorItems}
       </ul>
@@ -59,25 +64,48 @@ export default function AddTodo() {
   }
 
   return (
-    <section>
-      {errorResult}
-      <label 
-        htmlFor="todo-name"
-        data-testid="todo-name-label"
-      >Todo name</label>
-      <input 
-        id="todo-name"
-        type="text" 
-        name="todo-name"
-        autoFocus
-        onChange={(e: ChangeEvent<HTMLInputElement>) => handleTodoNameChange(e.target.value)}
-        value={todoName}
-        data-testid='todo-name-input'
-      />
-      <button 
-        onClick={handleAddTodo}
-        data-testid="add-todo-button"
-      >Add Todo</button>
+    <section className="w-4/5 max-w-3xl mx-auto">
+      <form className="w-full max-w-sm mx-auto" onSubmit={handleSubmit}>
+        <h2 
+          className="mb-10 pt-16 w-full font-bold text-center tracking-widest uppercase"
+        >
+          Add New To-do
+        </h2>
+        {errorResult}
+        <div className="w-full mb-4">
+          <label 
+            htmlFor="todo-name"
+            className="block mb-2 tracking-widest uppercase"
+            data-testid="todo-name-label"
+          >
+            To-do name
+          </label>
+          <input 
+            id="todo-name"
+            type="text" 
+            name="todo-name"
+            className={`
+              py-3.5 px-6 w-full border border-solid border-black rounded tracking-widest 
+              text-white
+            `}
+            autoFocus
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handleTodoNameChange(e.target.value)}
+            value={todoName}
+            data-testid='todo-name-input'
+          />
+        </div>
+        <button 
+          type="submit"
+          className={`
+            py-2.5 px-4 w-full bg-sky-700 border hover:bg-sky-800 active:bg-sky-900 
+            focus:outline-none focus:ring focus:ring-sky-300 border-solid border-sky-700 
+            rounded font-bold cursor-pointer uppercase text-white
+          `}
+          data-testid="add-todo-button"
+        >
+          Add To-do
+        </button>
+      </form>
     </section>
   )
 }

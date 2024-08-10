@@ -26,8 +26,18 @@ describe('TodoList component', () => {
       // Find the ul tag on the screen
       const todoListElement = screen.getByRole('list')
 
-      // Check if the todo item element is present in the document
+      // Check if the todo list element is present in the document
       expect(todoListElement).toBeInTheDocument()
+      
+      // Check if the todo list element is visible to the user
+      expect(todoListElement).toHaveClass('list-none')
+      expect(todoListElement).toHaveClass('p-4')
+
+      // Check that the todo list element does not have classes that would make it invisible
+      expect(todoListElement).not.toHaveClass('hidden')
+      expect(todoListElement).not.toHaveClass('invisible')
+      expect(todoListElement).not.toHaveClass('opacity-0')
+
       // Check if the default message is NOT in the document
       expect(screen.queryByText(/no tasks/i)).toBe(null)
 
@@ -46,9 +56,20 @@ describe('TodoList component', () => {
 
       // Render the "TodoList" component
       render(<TodoList />)
+
+      const noTodosElement = screen.getByTestId('no-todos-text')
       
-      // Check if the default message is in the document
-      expect(screen.getByText(/no tasks/i)).toBeInTheDocument()
+      // Check if the "no todo text" element is present in the document
+      expect(noTodosElement).toBeInTheDocument()
+      
+      // Check if the "no todo text" element is visible to the user
+      expect(noTodosElement).toHaveClass('uppercase')
+      expect(noTodosElement).toHaveClass('text-center')
+
+      // Check that the "no todo text" element does not have classes that would make it invisible
+      expect(noTodosElement).not.toHaveClass('hidden')
+      expect(noTodosElement).not.toHaveClass('invisible')
+      expect(noTodosElement).not.toHaveClass('opacity-0')
 
       // Restore the original implementation
       vi.restoreAllMocks()
