@@ -17,11 +17,11 @@ describe('Create todo workflow', () => {
     )
     
     // Check if the default message is in the document
-    expect(screen.getByText(/no tasks/i)).toBeInTheDocument()
+    expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newTodo)
-    await userEvent.click(screen.getByRole('button', { name: /add todo/i}))
+    await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
 
     // Check if the todo item element is in the document
     expect(screen.queryByTestId('todo-list')).toBeInTheDocument()
@@ -44,11 +44,11 @@ describe('Create todo workflow', () => {
     )
 
     // Check if the default message is in the document
-    expect(screen.getByText(/no tasks/i)).toBeInTheDocument()
+    expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newTodo)
-    await userEvent.click(screen.getByRole('button', { name: /add todo/i}))
+    await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
 
     // Check if the todo list element is NOT in the document
     expect(screen.queryByTestId('todo-list')).toBe(null)
