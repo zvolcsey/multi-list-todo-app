@@ -7,6 +7,7 @@ export interface ITodo {
 export interface ITodoContext {
   todos: ITodo[],
   addTodo: (todo: ITodo) => void,
+  updateTodo: (newTodo: ITodo, oldTodo: ITodo) => void,
 }
 
 export interface ITodoProvider {

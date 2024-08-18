@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '../testUtilities/testUtils';
+import { render, screen, userEvent } from '../testUtilities/testUtils';
 import TodoItem from "../../components/TodoList/TodoItem";
 
 
@@ -9,8 +9,8 @@ describe('TodoItem component', () => {
       // Create a dummy todo
       const todoItem = 'Cleaning the bathroom'
 
-      // Render the TodoItem component
-      render(<TodoItem>{todoItem}</TodoItem>)
+      // Render the "TodoItem" component
+      render(<TodoItem data={{ name: todoItem }}/>)
 
       // Find the todo items on the screen
       const todoItemElement = screen.queryAllByTestId('todo-item')
@@ -29,6 +29,26 @@ describe('TodoItem component', () => {
       expect(todoItemElement[0]).not.toHaveClass('hidden')
       expect(todoItemElement[0]).not.toHaveClass('invisible')
       expect(todoItemElement[0]).not.toHaveClass('opacity-0')
+    })
+  })
+  describe('Edit functionality', () => {
+    it('exits editing mode successfully when the user clicks cancel button', async () => {
+      // Create a dummy todo
+      const todoItem = 'Cleaning the bathroom'
+
+      // Render the "TodoItem" component
+      render(<TodoItem data={{ name: todoItem }}/>)
+
+      // Find the todo items on the screen
+      const editTodoNameDiv = screen.getByTestId('edit-todo-name')
+
+      await userEvent.click(editTodoNameDiv)
+
+      expect(screen.getByTestId('edit-input')).toBeInTheDocument()
+
+      await userEvent.click(screen.getByTestId('edit-cancel-button'))
+
+      expect(screen.getByText(todoItem)).toBeInTheDocument()
     })
   })
 })

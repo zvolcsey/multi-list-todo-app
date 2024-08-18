@@ -11,8 +11,18 @@ export default function TodoProvider({ children }: ITodoProvider) {
     setTodos((prevTodos) => [todo, ...prevTodos])
   }
 
+  function updateTodo(newTodo: ITodo, oldTodo: ITodo) {
+    setTodos((prevTodos) => (
+      prevTodos.map((todo) => (todo.name === oldTodo.name ? newTodo : todo))
+    ))
+  }
+
   return (
-    <TodoContext.Provider value={{ todos, addTodo }}>
+    <TodoContext.Provider value={{ 
+      todos, 
+      addTodo,
+      updateTodo,
+    }}>
       {children}
     </TodoContext.Provider>
   )
