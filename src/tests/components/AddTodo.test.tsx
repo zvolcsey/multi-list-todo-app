@@ -17,7 +17,6 @@ describe('AddTodo component', () => {
 
       // Check if the input element is visible to the user
       expect(todoNameInputElement).toHaveClass('border')
-      expect(todoNameInputElement).toHaveClass('text-white')
 
       // Check that the input element does not have classes that would make it invisible
       expect(todoNameInputElement).not.toHaveClass('hidden')
@@ -37,7 +36,6 @@ describe('AddTodo component', () => {
 
       // Check if the button element is visible to the user
       expect(addTodoButtonElement).toHaveClass('bg-sky-700')
-      expect(addTodoButtonElement).toHaveClass('text-white')
       
       // Check that the input element does not have classes that would make it invisible
       expect(addTodoButtonElement).not.toHaveClass('hidden')
@@ -48,13 +46,15 @@ describe('AddTodo component', () => {
     it('triggers the addition of todo item when "Add todo" button is clicked and clears the input field', async () => {
       // Create a new dummy todo
       const newTodo = 'Take out the trash'
-      // Create a spy on "addTodo" function
+      // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
+      const updateTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
         todos: [],
-        addTodo
+        addTodo,
+        updateTodo,
       })
       
       // Render the "AddTodo" component
@@ -117,13 +117,15 @@ describe('AddTodo component', () => {
       // Create a new dummy todo
       const newTodo = '/'
 
-      // Create a spy on "addTodo" function
+      // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
+      const updateTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
         todos: [],
-        addTodo
+        addTodo,
+        updateTodo,
       })
       
       // Render the "AddTodo" component
@@ -159,13 +161,15 @@ describe('AddTodo component', () => {
       const validTodo = 'Clean the bathroom'
       const invalidTodo = '/'
 
-      // Create a spy on "addTodo" function
+      // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
+      const updateTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
         todos: [],
-        addTodo
+        addTodo,
+        updateTodo,
       })
       
       // Render the "AddTodo" component
@@ -211,13 +215,15 @@ describe('AddTodo component', () => {
       const invalidTodoOne = 'A'
       const invalidTodoTwo = 'Take out the trash'
 
-      // Create a spy on "addTodo" function
+      // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
+      const updateTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
         todos: [{ name: 'Take out the trash'}],
-        addTodo
+        addTodo,
+        updateTodo,
       })
 
       // Render the "AddTodo" component

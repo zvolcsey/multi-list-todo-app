@@ -17,7 +17,8 @@ describe('TodoList component', () => {
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, "useTodoContext").mockReturnValue({
         todos,
-        addTodo: vi.fn()
+        addTodo: vi.fn(),
+        updateTodo: vi.fn(),
       })
 
       // Render the "TodoList" component
@@ -51,7 +52,8 @@ describe('TodoList component', () => {
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, "useTodoContext").mockReturnValue({
         todos,
-        addTodo: vi.fn()
+        addTodo: vi.fn(),
+        updateTodo: vi.fn(),
       })
 
       // Render the "TodoList" component

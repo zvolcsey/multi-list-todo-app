@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState, type ReactNode } from "react"
-import { useTodoContext } from "../../contexts/TodoContext";
-import { validateTodo } from "../../utilities/validation.utilities";
+import { useTodoContext } from "../../contexts/TodoContext"
+import { validateTodo } from "../../utilities/validation.utilities"
+import { Input } from "../ui/input"
 
 export default function AddTodo() {
   const { todos, addTodo } = useTodoContext();
@@ -80,13 +81,13 @@ export default function AddTodo() {
           >
             To-do name
           </label>
-          <input 
+          <Input 
             id="todo-name"
             type="text" 
             name="todo-name"
             className={`
               py-3.5 px-6 w-full border border-solid border-black rounded tracking-widest 
-              text-white
+              bg-gray-200 dark:bg-gray-800
             `}
             autoFocus
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleTodoNameChange(e.target.value)}
