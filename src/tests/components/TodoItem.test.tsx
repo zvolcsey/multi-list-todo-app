@@ -10,25 +10,25 @@ describe('TodoItem component', () => {
       const todoItem = 'Cleaning the bathroom'
 
       // Render the "TodoItem" component
-      render(<TodoItem data={{ name: todoItem }}/>)
+      render(<TodoItem data={{ id: new Date().getTime(), name: todoItem }}/>)
 
       // Find the todo items on the screen
-      const todoItemElement = screen.queryAllByTestId('todo-item')
+      const todoItemElements = screen.queryAllByTestId('todo-item')
 
       // Check if the todo item element is present in the document
-      expect(todoItemElement[0]).toBeInTheDocument()
+      expect(todoItemElements[0]).toBeInTheDocument()
 
       // Check if the todo item contains the correct text
-      expect(todoItemElement[0]).toHaveTextContent(todoItem)
+      expect(todoItemElements[0]).toHaveTextContent(todoItem)
       
       // Check if the todo item element is visible to the user
-      expect(todoItemElement[0]).toHaveClass('pb-8')
-      expect(todoItemElement[0]).toHaveClass('last-of-type:p-0')
+      expect(todoItemElements[0]).toHaveClass('tw-pb-8')
+      expect(todoItemElements[0]).toHaveClass('last-of-type:tw-p-0')
 
       // Check that the todo item element does not have classes that would make it invisible
-      expect(todoItemElement[0]).not.toHaveClass('hidden')
-      expect(todoItemElement[0]).not.toHaveClass('invisible')
-      expect(todoItemElement[0]).not.toHaveClass('opacity-0')
+      expect(todoItemElements[0]).not.toHaveClass('tw-hidden')
+      expect(todoItemElements[0]).not.toHaveClass('tw-invisible')
+      expect(todoItemElements[0]).not.toHaveClass('tw-opacity-0')
     })
   })
   describe('Edit functionality', () => {
@@ -37,14 +37,14 @@ describe('TodoItem component', () => {
       const todoItem = 'Cleaning the bathroom'
 
       // Render the "TodoItem" component
-      render(<TodoItem data={{ name: todoItem }}/>)
+      render(<TodoItem data={{ id: new Date().getTime(), name: todoItem }}/>)
 
       // Find the todo items on the screen
       const editTodoNameDiv = screen.getByTestId('edit-todo-name')
 
       await userEvent.click(editTodoNameDiv)
 
-      expect(screen.getByTestId('edit-input')).toBeInTheDocument()
+      expect(screen.getByTestId('edit-todo-name-input')).toBeInTheDocument()
 
       await userEvent.click(screen.getByTestId('edit-cancel-button'))
 

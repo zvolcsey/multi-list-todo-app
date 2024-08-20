@@ -10,8 +10,8 @@ describe('TodoList component', () => {
     it('displays the list element if there are todos', () => {
       // Create a dummy todos array
       const todos: ITodo[] = [
-        { name: "Take out the trash" },
-        { name: "Cleaning the bathroom" },
+        { id: new Date().getTime(), name: "Take out the trash" },
+        { id: new Date().getTime() + 1, name: "Cleaning the bathroom" },
       ]
 
       // Spy on the "useTodoContext" function
@@ -19,6 +19,7 @@ describe('TodoList component', () => {
         todos,
         addTodo: vi.fn(),
         updateTodo: vi.fn(),
+        deleteTodo: vi.fn(),
       })
 
       // Render the "TodoList" component
@@ -31,13 +32,13 @@ describe('TodoList component', () => {
       expect(todoListElement).toBeInTheDocument()
       
       // Check if the todo list element is visible to the user
-      expect(todoListElement).toHaveClass('list-none')
-      expect(todoListElement).toHaveClass('p-4')
+      expect(todoListElement).toHaveClass('tw-list-none')
+      expect(todoListElement).toHaveClass('tw-p-4')
 
       // Check that the todo list element does not have classes that would make it invisible
-      expect(todoListElement).not.toHaveClass('hidden')
-      expect(todoListElement).not.toHaveClass('invisible')
-      expect(todoListElement).not.toHaveClass('opacity-0')
+      expect(todoListElement).not.toHaveClass('tw-hidden')
+      expect(todoListElement).not.toHaveClass('tw-invisible')
+      expect(todoListElement).not.toHaveClass('tw-opacity-0')
 
       // Check if the default message is NOT in the document
       expect(screen.queryByText(/no tasks/i)).toBe(null)
@@ -54,6 +55,7 @@ describe('TodoList component', () => {
         todos,
         addTodo: vi.fn(),
         updateTodo: vi.fn(),
+        deleteTodo: vi.fn(),
       })
 
       // Render the "TodoList" component
@@ -65,13 +67,13 @@ describe('TodoList component', () => {
       expect(noTodosElement).toBeInTheDocument()
       
       // Check if the "no todo text" element is visible to the user
-      expect(noTodosElement).toHaveClass('uppercase')
-      expect(noTodosElement).toHaveClass('text-center')
+      expect(noTodosElement).toHaveClass('tw-uppercase')
+      expect(noTodosElement).toHaveClass('tw-text-center')
 
       // Check that the "no todo text" element does not have classes that would make it invisible
-      expect(noTodosElement).not.toHaveClass('hidden')
-      expect(noTodosElement).not.toHaveClass('invisible')
-      expect(noTodosElement).not.toHaveClass('opacity-0')
+      expect(noTodosElement).not.toHaveClass('tw-hidden')
+      expect(noTodosElement).not.toHaveClass('tw-invisible')
+      expect(noTodosElement).not.toHaveClass('tw-opacity-0')
 
       // Restore the original implementation
       vi.restoreAllMocks()

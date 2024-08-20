@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, userEvent } from '../testUtilities/testUtils';
+import { render, screen, userEvent, within } from '../testUtilities/testUtils';
 import TodoList from '../../components/TodoList/TodoList';
 import AddTodo from '../../components/AddTodo/AddTodo';
 
-describe('Create and Update todo workflow', () => {
+describe('CRUD todo workflow', () => {
   it('successfully creates and updates a todo item', async () => {
-    // Create a new dummy todo
+    // Create new dummy todos
     const newGroceryTodo = 'Milk'
     const updatedGroceryTodo = 'Bread'
 
@@ -38,7 +38,7 @@ describe('Create and Update todo workflow', () => {
     await userEvent.click(editTodoNameElement)
 
     // Find the edit input element on the screen
-    const editInputElement = screen.getByTestId('edit-input')
+    const editInputElement = screen.getByTestId('edit-todo-name-input')
 
     // Clear the input field and enter the new todo item
     await userEvent.clear(editInputElement)
@@ -47,6 +47,95 @@ describe('Create and Update todo workflow', () => {
     
     // Check if the updated todo item is present in the document
     expect(screen.getByText(updatedGroceryTodo)).toBeInTheDocument()
+  })
+
+  it('successfully creates and deletes a todo item', async () => {
+    // Create a new dummy todo
+    const newGroceryTodo = 'Milk'
+
+    // Render the "AddTodo" and the "TodoList" components
+    render(
+      <>
+        <AddTodo />
+        <TodoList />
+      </>
+    )
+    
+    // Check if the default message is in the document
+    expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
+
+    // Write the todo in the input field and click the button
+    await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
+    await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
+    
+    // Find the todo item on the screen
+    const todoItemElements = screen.queryAllByTestId('todo-item')
+
+    // Check if the todo item element is in the document
+    expect(screen.queryByTestId('todo-list')).toBeInTheDocument()
+    // Check if the todo item contains the correct text
+    expect(todoItemElements[0]).toHaveTextContent(newGroceryTodo)
+    // Check if the default message is NOT in the document
+    expect(screen.queryByText(/no tasks/i)).toBe(null)
+
+    // Find the remove button on the screen
+    const removeButton = within(todoItemElements[0]).getByRole('button', { name: /remove/i })
+
+    // Click the todo item element
+    await userEvent.click(removeButton)
+
+    // Find the remove button on the "AlertDialog" component
+    const deleteConfirmationButton = screen.getByTestId('delete-confirmation')
+
+    // Click the delete confirmation button
+    await userEvent.click(deleteConfirmationButton)
+    
+    // Check if the updated todo item is present in the document
+    expect(screen.queryByText(newGroceryTodo)).toBe(null)
+  })
+  it('successfully creates and cancels the delete process', async () => {
+    // Create a new dummy todo
+    const newGroceryTodo = 'Milk'
+
+    // Render the "AddTodo" and the "TodoList" components
+    render(
+      <>
+        <AddTodo />
+        <TodoList />
+      </>
+    )
+    
+    // Check if the default message is in the document
+    expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
+
+    // Write the todo in the input field and click the button
+    await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
+    await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
+    
+    // Find the todo item on the screen
+    const todoItemElements = screen.queryAllByTestId('todo-item')
+
+    // Check if the todo item element is in the document
+    expect(screen.queryByTestId('todo-list')).toBeInTheDocument()
+    // Check if the todo item contains the correct text
+    expect(todoItemElements[0]).toHaveTextContent(newGroceryTodo)
+    // Check if the default message is NOT in the document
+    expect(screen.queryByText(/no tasks/i)).toBe(null)
+
+    // Find the remove button on the screen
+    const removeButton = within(todoItemElements[0]).getByRole('button', { name: /remove/i })
+
+    // Click the todo item element
+    await userEvent.click(removeButton)
+
+    // Find the remove button on the "AlertDialog" component
+    const deleteCancelButton = screen.getByTestId('delete-cancel')
+
+    // Click the delete confirmation button
+    await userEvent.click(deleteCancelButton)
+    
+    // Check if the updated todo item is present in the document
+    expect(screen.queryByText(newGroceryTodo)).toHaveTextContent(newGroceryTodo)
   })
   
   it('does not display the invalid todo in the todo list', async () => {
@@ -103,7 +192,7 @@ describe('Create and Update todo workflow', () => {
     await userEvent.click(editTodoNameElement)
 
     // Find the edit input element on the screen
-    const editInputElement = screen.getByTestId('edit-input')
+    const editInputElement = screen.getByTestId('edit-todo-name-input')
 
     // Clear the input field and enter the new todo item
     await userEvent.clear(editInputElement)

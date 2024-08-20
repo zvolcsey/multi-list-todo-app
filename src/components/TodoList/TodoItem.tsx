@@ -5,6 +5,7 @@ import { useTodoContext } from "../../contexts/TodoContext";
 import { Button } from "../ui/button";
 import { Pencil, Save, X } from "lucide-react";
 import { Input } from "../ui/input";
+import DeleteTodoAlertDialog from "../delete-alert-dialog";
 
 interface ITodoItemProps {
   data: ITodo,
@@ -17,7 +18,6 @@ export default function TodoItem({ data }: ITodoItemProps) {
   const [editMode, setEditMode] = useState<boolean>(false)
   const [newTodoName, setNewTodoName] = useState<string>(name)
   const [errors, setErrors] = useState<string[] | null>(null)
-  
   function handleEditMode() {
     setEditMode(prevEditMode => !prevEditMode)
   }
@@ -42,7 +42,7 @@ export default function TodoItem({ data }: ITodoItemProps) {
     }
     
     // Create the new todo object
-    const updatedTodo = { name: newTodoName }
+    const updatedTodo = { id: data.id, name: newTodoName }
 
     // Update the todo item
     updateTodo(updatedTodo, data)
@@ -63,7 +63,7 @@ export default function TodoItem({ data }: ITodoItemProps) {
     const errorItems = errors.map((error, idx) => (
       <li 
         key={idx}
-        className="pb-1 last-of-type:p-0 text-red-400 text-xs"
+        className="tw-pb-1 last-of-type:tw-p-0 tw-text-red-400 tw-text-xs"
         data-testid="error-item"
       >
         {error}
@@ -72,7 +72,7 @@ export default function TodoItem({ data }: ITodoItemProps) {
     
     errorResult = (
       <ul 
-        className="list-none mt-1 p-1 border border-solid border-red-400 rounded"
+        className="tw-list-none tw-mt-1 tw-p-1 tw-border tw-border-solid tw-border-red-400 tw-rounded"
         data-testid="error-list"
       >
         {errorItems}
@@ -82,66 +82,69 @@ export default function TodoItem({ data }: ITodoItemProps) {
 
   return (
     <li
-      className="pb-8 last-of-type:p-0"
+      className="tw-flex tw-items-center md:tw-justify-between tw-gap-4 tw-pb-8 last-of-type:tw-p-0"
       data-testid="todo-item"
     >
       {!editMode && (
         <div 
           className={`
-            w-full md:w-fit flex gap-2 py-0.5 px-1.5 rounded-sm cursor-pointer
-            hover:bg-gray-200 dark:hover:bg-gray-800
+            tw-w-full md:tw-w-fit tw-h-10 tw-flex tw-items-center tw-gap-2 tw-py-2 tw-pl-3 tw-pr-0 tw-rounded-md 
+            tw-text-sm tw-cursor-pointer hover:tw-bg-background hover:tw-border 
+            hover:tw-border-input dark:hover:tw-bg-background
           `}
           onClick={handleEditMode}
           data-testid="edit-todo-name"
         >
-          <p className="peer">{ name }</p>
+          <p className="tw-peer">{ name }</p>
           <Button 
-            variant="outline" 
+            variant="ghost" 
             size="icon" 
-            className="hidden md:block opacity-0 peer-hover:opacity-100"
+            className="tw-hidden md:tw-inline-flex tw-opacity-0 peer-hover:tw-opacity-100"
           >
-            <Pencil className="h-3.5 w-3.5" />
+            <Pencil className="tw-h-3.5 tw-w-3.5" />
           </Button>
         </div>
       )}
       {editMode && (
         <div>
-          <div className="flex gap-1 w-full max-w-sm items-center space-x-2">
+          <div className="tw-flex tw-items-center tw-gap-4 tw-w-full tw-max-w-2xl">
             <Input 
               type="text"
+              name="edit-todo-name-input"
               autoFocus
-              className="w-full py-0.5 px-1.5 rounded-sm bg-gray-200 dark:bg-gray-800"
+              className="tw-tracking-widest"
               value={newTodoName}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeNewTodoName(e)} 
               onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDownEnter(e)}
-              data-testid="edit-input"
+              data-testid="edit-todo-name-input"
             />
             <Button 
               type="submit"
               name="save"
-              variant="outline" 
-              size="icon" 
-              className="items-center space-x-2 gap-1 hidden md:flex"
+              size="icon"
+              className="md:tw-w-fit md:tw-px-4 md:tw-py-2"
               onClick={handleSave}
               data-testid='edit-save-button'
             >
-              <Save className="h-4 w-4"/> Save
+              <Save className="tw-h-4 tw-w-4"/>
+              <span className="tw-hidden md:tw-block md:tw-ml-0.5">Save</span>
             </Button>
             <Button 
-              type="button" 
-              variant="outline" 
-              size="icon" 
-              className="flex items-center space-x-2 gap-0.5"
+              type="button"
+              variant="secondary"
+              size="icon"
+              className="md:tw-w-fit md:tw-px-4 md:tw-py-2"
               onClick={handleCancel}
               data-testid='edit-cancel-button'
             >
-              <X className="h-4 w-4"/> 
-              <p className="hidden md:block">Cancel</p>
+              <X className="tw-h-4 tw-w-4"/> 
+              <span className="tw-hidden md:tw-block md:tw-ml-0.5">Cancel</span>
             </Button>
           </div>
           {errorResult}
         </div>
       )}
+      <DeleteTodoAlertDialog id={data.id} />
     </li>
   )
 }

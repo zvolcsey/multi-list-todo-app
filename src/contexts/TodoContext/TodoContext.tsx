@@ -17,11 +17,16 @@ export default function TodoProvider({ children }: ITodoProvider) {
     ))
   }
 
+  function deleteTodo(id: number) {
+    setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id))
+  }
+
   return (
     <TodoContext.Provider value={{ 
       todos, 
       addTodo,
       updateTodo,
+      deleteTodo,
     }}>
       {children}
     </TodoContext.Provider>

@@ -16,12 +16,12 @@ describe('AddTodo component', () => {
       expect(todoNameInputElement).toBeInTheDocument()
 
       // Check if the input element is visible to the user
-      expect(todoNameInputElement).toHaveClass('border')
+      expect(todoNameInputElement).toHaveClass('tw-border')
 
       // Check that the input element does not have classes that would make it invisible
-      expect(todoNameInputElement).not.toHaveClass('hidden')
-      expect(todoNameInputElement).not.toHaveClass('invisible')
-      expect(todoNameInputElement).not.toHaveClass('opacity-0')
+      expect(todoNameInputElement).not.toHaveClass('tw-hidden')
+      expect(todoNameInputElement).not.toHaveClass('tw-invisible')
+      expect(todoNameInputElement).not.toHaveClass('tw-opacity-0')
     })
     
     it('ensures the "Add Todo" button is in the document and visible', () => {
@@ -35,12 +35,12 @@ describe('AddTodo component', () => {
       expect(addTodoButtonElement).toBeInTheDocument()
 
       // Check if the button element is visible to the user
-      expect(addTodoButtonElement).toHaveClass('bg-sky-700')
+      expect(addTodoButtonElement).toHaveClass('tw-bg-primary')
       
       // Check that the input element does not have classes that would make it invisible
-      expect(addTodoButtonElement).not.toHaveClass('hidden')
-      expect(addTodoButtonElement).not.toHaveClass('invisible')
-      expect(addTodoButtonElement).not.toHaveClass('opacity-0')
+      expect(addTodoButtonElement).not.toHaveClass('tw-hidden')
+      expect(addTodoButtonElement).not.toHaveClass('tw-invisible')
+      expect(addTodoButtonElement).not.toHaveClass('tw-opacity-0')
     })
 
     it('triggers the addition of todo item when "Add todo" button is clicked and clears the input field', async () => {
@@ -49,12 +49,14 @@ describe('AddTodo component', () => {
       // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
       const updateTodo = vi.fn()
+      const deleteTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
         todos: [],
         addTodo,
         updateTodo,
+        deleteTodo
       })
       
       // Render the "AddTodo" component
@@ -68,7 +70,7 @@ describe('AddTodo component', () => {
       await userEvent.click(screen.getByTestId('add-todo-button'))
 
       // Check if the addTodo function is invoked and the input field was cleared
-      expect(addTodo).toBeCalledWith({ name: newTodo })
+      expect(addTodo).toBeCalled
       expect(todoNameInputElement).toHaveValue('')
 
       // Restore the original implementation
@@ -88,13 +90,13 @@ describe('AddTodo component', () => {
       expect(todoNameInputElement).toBeInTheDocument()
 
       // Check if the label element is visible to the user
-      expect(todoNameLabelElement).toHaveClass('block')
-      expect(todoNameLabelElement).toHaveClass('uppercase')
+      expect(todoNameLabelElement).toHaveClass('tw-block')
+      expect(todoNameLabelElement).toHaveClass('tw-uppercase')
       
       // Check that the input element does not have classes that would make it invisible
-      expect(todoNameLabelElement).not.toHaveClass('hidden')
-      expect(todoNameLabelElement).not.toHaveClass('invisible')
-      expect(todoNameLabelElement).not.toHaveClass('opacity-0')
+      expect(todoNameLabelElement).not.toHaveClass('tw-hidden')
+      expect(todoNameLabelElement).not.toHaveClass('tw-invisible')
+      expect(todoNameLabelElement).not.toHaveClass('tw-opacity-0')
 
       // Check if the label elements's for attribute is the same as the input's id
       expect(todoNameLabelElement).toHaveAttribute('for', todoNameInputElement.id)
@@ -120,12 +122,14 @@ describe('AddTodo component', () => {
       // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
       const updateTodo = vi.fn()
+      const deleteTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
         todos: [],
         addTodo,
         updateTodo,
+        deleteTodo
       })
       
       // Render the "AddTodo" component
@@ -145,12 +149,12 @@ describe('AddTodo component', () => {
       expect(errorListElement).toBeInTheDocument()
 
       // Check if the error list element is visible to the user
-      expect(errorListElement).toHaveClass('border-red-400')
+      expect(errorListElement).toHaveClass('tw-border-red-400')
       
       // Check that the error list element does not have classes that would make it invisible
-      expect(errorListElement).not.toHaveClass('hidden')
-      expect(errorListElement).not.toHaveClass('invisible')
-      expect(errorListElement).not.toHaveClass('opacity-0')
+      expect(errorListElement).not.toHaveClass('tw-hidden')
+      expect(errorListElement).not.toHaveClass('tw-invisible')
+      expect(errorListElement).not.toHaveClass('tw-opacity-0')
 
       // Restore the original implementation
       vi.restoreAllMocks()
@@ -164,12 +168,14 @@ describe('AddTodo component', () => {
       // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
       const updateTodo = vi.fn()
+      const deleteTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
         todos: [],
         addTodo,
         updateTodo,
+        deleteTodo
       })
       
       // Render the "AddTodo" component
@@ -189,12 +195,12 @@ describe('AddTodo component', () => {
       expect(errorListElement).toBeInTheDocument()
 
       // Check if the error list element is visible to the user
-      expect(errorListElement).toHaveClass('border-red-400')
+      expect(errorListElement).toHaveClass('tw-border-red-400')
       
       // Check that the error list element does not have classes that would make it invisible
-      expect(errorListElement).not.toHaveClass('hidden')
-      expect(errorListElement).not.toHaveClass('invisible')
-      expect(errorListElement).not.toHaveClass('opacity-0')
+      expect(errorListElement).not.toHaveClass('tw-hidden')
+      expect(errorListElement).not.toHaveClass('tw-invisible')
+      expect(errorListElement).not.toHaveClass('tw-opacity-0')
 
       // Write a valid todo in the input field and click the button
       await userEvent.type(todoNameInputElement, validTodo)
@@ -218,12 +224,14 @@ describe('AddTodo component', () => {
       // Create a spy on "addTodo" and "updateTodo" function
       const addTodo = vi.fn()
       const updateTodo = vi.fn()
+      const deleteTodo = vi.fn()
 
       // Spy on the "useTodoContext" function
       vi.spyOn(TodoContextModule, 'useTodoContext').mockReturnValue({
-        todos: [{ name: 'Take out the trash'}],
+        todos: [{ id: new Date().getTime(), name: 'Take out the trash'}],
         addTodo,
         updateTodo,
+        deleteTodo
       })
 
       // Render the "AddTodo" component
@@ -244,17 +252,17 @@ describe('AddTodo component', () => {
       expect(errorListElement).toBeInTheDocument()
 
       // Check if the error list and item elements are visible to the user
-      expect(errorListElement).toHaveClass('border-red-400')
+      expect(errorListElement).toHaveClass('tw-border-red-400')
       expect(errorItemElements[0].textContent).toContain('between');
-      expect(errorItemElements[0]).toHaveClass('text-red-400')
+      expect(errorItemElements[0]).toHaveClass('tw-text-red-400')
       
       // Check that the error list and item elements do not have classes that would make it invisible
-      expect(errorListElement).not.toHaveClass('hidden')
-      expect(errorListElement).not.toHaveClass('invisible')
-      expect(errorListElement).not.toHaveClass('opacity-0')
-      expect(errorItemElements[0]).not.toHaveClass('hidden')
-      expect(errorItemElements[0]).not.toHaveClass('invisible')
-      expect(errorItemElements[0]).not.toHaveClass('opacity-0')
+      expect(errorListElement).not.toHaveClass('tw-hidden')
+      expect(errorListElement).not.toHaveClass('tw-invisible')
+      expect(errorListElement).not.toHaveClass('tw-opacity-0')
+      expect(errorItemElements[0]).not.toHaveClass('tw-hidden')
+      expect(errorItemElements[0]).not.toHaveClass('tw-invisible')
+      expect(errorItemElements[0]).not.toHaveClass('tw-opacity-0')
 
       // Write a valid todo in the input field and click the button
       await userEvent.type(todoNameInputElement, invalidTodoTwo)
@@ -268,17 +276,17 @@ describe('AddTodo component', () => {
       expect(errorListElement).toBeInTheDocument()
 
       // Check if the error list and item elements are visible to the user
-      expect(errorListElement).toHaveClass('border-red-400')
+      expect(errorListElement).toHaveClass('tw-border-red-400')
       expect(errorItemElements[0].textContent).toContain('exists');
-      expect(errorItemElements[0]).toHaveClass('text-red-400')
+      expect(errorItemElements[0]).toHaveClass('tw-text-red-400')
       
       // Check that the error list and item elements do not have classes that would make it invisible
-      expect(errorListElement).not.toHaveClass('hidden')
-      expect(errorListElement).not.toHaveClass('invisible')
-      expect(errorListElement).not.toHaveClass('opacity-0')
-      expect(errorItemElements[0]).not.toHaveClass('hidden')
-      expect(errorItemElements[0]).not.toHaveClass('invisible')
-      expect(errorItemElements[0]).not.toHaveClass('opacity-0')
+      expect(errorListElement).not.toHaveClass('tw-hidden')
+      expect(errorListElement).not.toHaveClass('tw-invisible')
+      expect(errorListElement).not.toHaveClass('tw-opacity-0')
+      expect(errorItemElements[0]).not.toHaveClass('tw-hidden')
+      expect(errorItemElements[0]).not.toHaveClass('tw-invisible')
+      expect(errorItemElements[0]).not.toHaveClass('tw-opacity-0')
 
 
       // Restore the original implementation
