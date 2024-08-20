@@ -24,17 +24,17 @@ describe('CRUD todo workflow', () => {
     await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
     await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
 
-    // Check if the todo item element is in the document
+    // Check if the todo list element is present in the document
     expect(screen.queryByTestId('todo-list')).toBeInTheDocument()
     // Check if the todo item contains the correct text
     expect(screen.queryAllByTestId('todo-item')[0]).toHaveTextContent(newGroceryTodo)
     // Check if the default message is NOT in the document
     expect(screen.queryByText(/no tasks/i)).toBe(null)
 
-    // Find the todo item on the screen
+    // Find the todo item's name on the screen
     const editTodoNameElement = screen.getByTestId('edit-todo-name')
 
-    // Click the todo item element
+    // Click the todo item's name
     await userEvent.click(editTodoNameElement)
 
     // Find the edit input element on the screen
@@ -61,17 +61,17 @@ describe('CRUD todo workflow', () => {
       </>
     )
     
-    // Check if the default message is in the document
+    // Check if the default message is present in the document
     expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
     await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
     
-    // Find the todo item on the screen
+    // Find the todo items on the screen
     const todoItemElements = screen.queryAllByTestId('todo-item')
 
-    // Check if the todo item element is in the document
+    // Check if the todo item element is present in the document
     expect(screen.queryByTestId('todo-list')).toBeInTheDocument()
     // Check if the todo item contains the correct text
     expect(todoItemElements[0]).toHaveTextContent(newGroceryTodo)
@@ -81,7 +81,7 @@ describe('CRUD todo workflow', () => {
     // Find the remove button on the screen
     const removeButton = within(todoItemElements[0]).getByRole('button', { name: /remove/i })
 
-    // Click the todo item element
+    // Click the remove button
     await userEvent.click(removeButton)
 
     // Find the remove button on the "AlertDialog" component
@@ -90,7 +90,7 @@ describe('CRUD todo workflow', () => {
     // Click the delete confirmation button
     await userEvent.click(deleteConfirmationButton)
     
-    // Check if the updated todo item is present in the document
+    // Check if the updated todo item is NOT present in the document
     expect(screen.queryByText(newGroceryTodo)).toBe(null)
   })
   it('successfully creates and cancels the delete process', async () => {
@@ -105,14 +105,14 @@ describe('CRUD todo workflow', () => {
       </>
     )
     
-    // Check if the default message is in the document
+    // Check if the default message is present in the document
     expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
     await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
     
-    // Find the todo item on the screen
+    // Find the todo items on the screen
     const todoItemElements = screen.queryAllByTestId('todo-item')
 
     // Check if the todo item element is in the document
@@ -125,13 +125,13 @@ describe('CRUD todo workflow', () => {
     // Find the remove button on the screen
     const removeButton = within(todoItemElements[0]).getByRole('button', { name: /remove/i })
 
-    // Click the todo item element
+    // Click the remove button
     await userEvent.click(removeButton)
 
-    // Find the remove button on the "AlertDialog" component
+    // Find the cancel button on the "AlertDialog" component
     const deleteCancelButton = screen.getByTestId('delete-cancel')
 
-    // Click the delete confirmation button
+    // Click the cancel button
     await userEvent.click(deleteCancelButton)
     
     // Check if the updated todo item is present in the document
