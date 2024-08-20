@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState, type ReactNode } from "react"
 import { useTodoContext } from "../../contexts/TodoContext"
 import { validateTodo } from "../../utilities/validation.utilities"
 import { Input } from "../ui/input"
+import { Button } from "../ui/button";
 
 export default function AddTodo() {
   const { todos, addTodo } = useTodoContext();
@@ -28,7 +29,7 @@ export default function AddTodo() {
     }
 
     // Creating the new todo object
-    const newTodo = { name: todoName }
+    const newTodo = { id: new Date().getTime(), name: todoName }
 
     // Send the current todoName to the TodoContext state
     addTodo(newTodo)
@@ -47,7 +48,7 @@ export default function AddTodo() {
     const errorItems = errors.map((error, idx) => (
       <li 
         key={idx}
-        className="pb-4 last-of-type:p-0 text-red-400"
+        className="tw-pb-4 tw-last-of-type:p-0 tw-text-red-400"
         data-testid="error-item"
       >
         {error}
@@ -56,7 +57,7 @@ export default function AddTodo() {
     
     errorResult = (
       <ul 
-        className="list-none mb-4 p-4 border border-solid border-red-400 rounded"
+        className="tw-list-none tw-mb-4 tw-p-4 tw-border tw-border-solid tw-border-red-400 tw-rounded"
         data-testid="error-list"
       >
         {errorItems}
@@ -65,18 +66,18 @@ export default function AddTodo() {
   }
 
   return (
-    <section className="w-4/5 max-w-3xl mx-auto">
-      <form className="w-full max-w-sm mx-auto" onSubmit={handleSubmit}>
+    <section className="tw-w-4/5 tw-max-w-3xl tw-mx-auto">
+      <form className="tw-w-full tw-max-w-sm tw-mx-auto" onSubmit={handleSubmit}>
         <h2 
-          className="mb-10 pt-16 w-full font-bold text-center tracking-widest uppercase"
+          className="tw-mb-10 tw-pt-16 tw-w-full tw-font-bold tw-text-center tw-tracking-widest tw-uppercase"
         >
           Add New To-do
         </h2>
         {errorResult}
-        <div className="w-full mb-4">
+        <div className="tw-w-full tw-mb-4">
           <label 
             htmlFor="todo-name"
-            className="block mb-2 tracking-widest uppercase"
+            className="tw-block tw-mb-2 tw-tracking-widest tw-uppercase"
             data-testid="todo-name-label"
           >
             To-do name
@@ -85,27 +86,18 @@ export default function AddTodo() {
             id="todo-name"
             type="text" 
             name="todo-name"
-            className={`
-              py-3.5 px-6 w-full border border-solid border-black rounded tracking-widest 
-              bg-gray-200 dark:bg-gray-800
-            `}
-            autoFocus
+            className="tw-tracking-widest"
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleTodoNameChange(e.target.value)}
             value={todoName}
             data-testid='todo-name-input'
           />
         </div>
-        <button 
+        <Button
           type="submit"
-          className={`
-            py-2.5 px-4 w-full bg-sky-700 border hover:bg-sky-800 active:bg-sky-900 
-            focus:outline-none focus:ring focus:ring-sky-300 border-solid border-sky-700 
-            rounded font-bold cursor-pointer uppercase text-white
-          `}
           data-testid="add-todo-button"
         >
           Add To-do
-        </button>
+        </Button>
       </form>
     </section>
   )

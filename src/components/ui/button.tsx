@@ -1,4 +1,3 @@
-// Source: https://ui.shadcn.com/docs/components/button#installation
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -6,19 +5,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "tw-inline-flex tw-items-center tw-justify-center tw-whitespace-nowrap tw-rounded-md tw-text-sm tw-font-medium tw-ring-offset-white tw-transition-colors focus-visible:tw-outline-none focus-visible:tw-ring-2 focus-visible:tw-ring-slate-950 focus-visible:tw-ring-offset-2 disabled:tw-pointer-events-none disabled:tw-opacity-50 dark:tw-ring-offset-slate-950 dark:focus-visible:tw-ring-slate-300",
+  "tw-inline-flex tw-items-center tw-justify-center tw-whitespace-nowrap tw-rounded-md tw-text-sm tw-font-medium tw-ring-offset-background tw-transition-colors focus-visible:tw-outline-none focus-visible:tw-ring-2 focus-visible:tw-ring-ring focus-visible:tw-ring-offset-2 disabled:tw-pointer-events-none disabled:tw-opacity-50",
   {
     variants: {
       variant: {
-        default: "tw-bg-slate-900 tw-text-slate-50 hover:tw-bg-slate-900/90 dark:tw-bg-slate-50 dark:tw-text-slate-900 dark:hover:tw-bg-slate-50/90",
+        default: "tw-bg-primary tw-text-primary-foreground hover:tw-bg-primary/90",
         destructive:
-          "tw-bg-red-500 tw-text-slate-50 hover:tw-bg-red-500/90 dark:tw-bg-red-900 dark:tw-text-slate-50 dark:hover:tw-bg-red-900/90",
+          "tw-bg-destructive tw-text-destructive-foreground hover:tw-bg-destructive/90",
         outline:
-          "tw-border tw-border-slate-200 tw-bg-white hover:tw-bg-slate-100 hover:tw-text-slate-900 dark:tw-border-slate-800 dark:tw-bg-slate-950 dark:hover:tw-bg-slate-800 dark:hover:tw-text-slate-50",
+          "tw-border tw-border-input tw-bg-background hover:tw-bg-accent hover:tw-text-accent-foreground",
         secondary:
-          "tw-bg-slate-100 tw-text-slate-900 hover:tw-bg-slate-100/80 dark:tw-bg-slate-800 dark:tw-text-slate-50 dark:hover:tw-bg-slate-800/80",
-        ghost: "hover:tw-bg-slate-100 hover:tw-text-slate-900 dark:hover:tw-bg-slate-800 dark:hover:tw-text-slate-50",
-        link: "tw-text-slate-900 tw-underline-offset-4 hover:tw-underline dark:tw-text-slate-50",
+          "tw-bg-secondary tw-text-secondary-foreground hover:tw-bg-secondary/80",
+        ghost: "hover:tw-bg-accent hover:tw-text-accent-foreground",
+        link: "tw-text-primary tw-underline-offset-4 hover:tw-underline",
       },
       size: {
         default: "tw-h-10 tw-px-4 tw-py-2",
