@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, userEvent, within } from '../testUtilities/testUtils';
 import TodoList from '../../components/TodoList/TodoList';
-import AddTodo from '../../components/AddTodo/AddTodo';
 
 describe('CRUD todo workflow', () => {
   it('successfully creates and updates a todo item', async () => {
@@ -10,15 +9,13 @@ describe('CRUD todo workflow', () => {
     const updatedGroceryTodo = 'Bread'
 
     // Render the "AddTodo" and the "TodoList" components
-    render(
-      <>
-        <AddTodo />
-        <TodoList />
-      </>
-    )
+    render(<TodoList />)
     
     // Check if the default message is in the document
     expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
+    
+    // Click the "Add To-Do" button
+    await userEvent.click(screen.getByText(/add to-do/i))
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
@@ -54,15 +51,13 @@ describe('CRUD todo workflow', () => {
     const newGroceryTodo = 'Milk'
 
     // Render the "AddTodo" and the "TodoList" components
-    render(
-      <>
-        <AddTodo />
-        <TodoList />
-      </>
-    )
+    render(<TodoList />)
     
     // Check if the default message is present in the document
     expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
+    
+    // Click the "Add To-Do" button
+    await userEvent.click(screen.getByText(/add to-do/i))
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
@@ -98,15 +93,13 @@ describe('CRUD todo workflow', () => {
     const newGroceryTodo = 'Milk'
 
     // Render the "AddTodo" and the "TodoList" components
-    render(
-      <>
-        <AddTodo />
-        <TodoList />
-      </>
-    )
+    render(<TodoList />)
     
     // Check if the default message is present in the document
     expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
+    
+    // Click the "Add To-Do" button
+    await userEvent.click(screen.getByText(/add to-do/i))
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
@@ -143,15 +136,13 @@ describe('CRUD todo workflow', () => {
     const newTodo = '#1 Task is cleaning the bathroom'
 
     // Render the "AddTodo" and the "TodoList" components
-    render(
-      <>
-        <AddTodo />
-        <TodoList />
-      </>
-    )
+    render(<TodoList />)
 
     // Check if the default message is in the document
     expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
+    
+    // Click the "Add To-Do" button
+    await userEvent.click(screen.getByText(/add to-do/i))
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newTodo)
@@ -171,15 +162,13 @@ describe('CRUD todo workflow', () => {
     const updatedGroceryTodo = '/'
 
     // Render the "AddTodo" and the "TodoList" components
-    render(
-      <>
-        <AddTodo />
-        <TodoList />
-      </>
-    )
+    render(<TodoList />)
     
     // Check if the default message is in the document
     expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
+
+    // Click the "Add To-Do" button
+    await userEvent.click(screen.getByText(/add to-do/i))
 
     // Write the todo in the input field and click the button
     await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
