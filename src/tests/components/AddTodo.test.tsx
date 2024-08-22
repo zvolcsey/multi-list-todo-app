@@ -5,15 +5,15 @@ import * as TodoContextModule from "../../contexts/TodoContext"
 
 describe('AddTodo component', () => {
   describe('Basic functionality', () => {
-    it('ensures that the input field is present in the document and visible', () => {
+    it('ensures that the todo name input field is present in the document and visible', async () => {
       // Render the "AddTodo" component
       render(<AddTodo />)
 
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
+
       // Find the todo name input element
       const todoNameInputElement = screen.getByTestId('todo-name-input')
-
-      // Check if the input element is present in the document
-      expect(todoNameInputElement).toBeInTheDocument()
 
       // Check if the input element is visible to the user
       expect(todoNameInputElement).toHaveClass('tw-border')
@@ -24,15 +24,15 @@ describe('AddTodo component', () => {
       expect(todoNameInputElement).not.toHaveClass('tw-opacity-0')
     })
     
-    it('ensures the "Add Todo" button is in the document and visible', () => {
+    it('ensures the "Add To-Do" submit button is in the document and visible', async () => {
       // Render "AddTodo" component
       render(<AddTodo />)
+
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
       
       // Find the "Add Todo" button
       const addTodoButtonElement = screen.getByTestId('add-todo-button')
-
-      // Check if the button element is in the document
-      expect(addTodoButtonElement).toBeInTheDocument()
 
       // Check if the button element is visible to the user
       expect(addTodoButtonElement).toHaveClass('tw-bg-primary')
@@ -61,6 +61,9 @@ describe('AddTodo component', () => {
       
       // Render the "AddTodo" component
       render(<AddTodo />)
+      
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
 
       // Find the Todo name input element
       const todoNameInputElement = screen.getByTestId('todo-name-input')
@@ -77,17 +80,16 @@ describe('AddTodo component', () => {
       vi.restoreAllMocks()
     })
 
-    it('ensures the label is correctly associated with the input field and visible', () => {
+    it('ensures the label is correctly associated with the input field and visible', async () => {
       // Render the "AddTodo" component
       render(<AddTodo />)
+
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
 
       // Find todo name label and input field
       const todoNameLabelElement = screen.getByTestId('todo-name-label')
       const todoNameInputElement = screen.getByTestId('todo-name-input')
-
-      // Check if the label and input element are present in the document
-      expect(todoNameLabelElement).toBeInTheDocument()
-      expect(todoNameInputElement).toBeInTheDocument()
 
       // Check if the label element is visible to the user
       expect(todoNameLabelElement).toHaveClass('tw-block')
@@ -104,15 +106,18 @@ describe('AddTodo component', () => {
   })
 
   describe('Error state', () => {
-    it('does NOT display the error list on the initial render', () => {
+    it('does NOT display the error list on the initial render', async () => {
       // Render the "AddTodo" component
       render(<AddTodo />)
+      
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
 
       // Try to find the error list element
       const errorListElement = screen.queryByTestId('error-list')
 
       //Check if the error list element is NOT in the document
-      expect(errorListElement).not.toBeInTheDocument()
+      expect(errorListElement).toBe(null)
     })
 
     it('displays the error list if the user tries to add an invalid todo', async () => {
@@ -134,6 +139,9 @@ describe('AddTodo component', () => {
       
       // Render the "AddTodo" component
       render(<AddTodo />)
+      
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
 
       // Find the todo name input element
       const todoNameInputElement = screen.getByTestId('todo-name-input')
@@ -143,10 +151,7 @@ describe('AddTodo component', () => {
       await userEvent.click(screen.getByTestId('add-todo-button'))
       
       // Try to find the error list element
-      const errorListElement = screen.queryByTestId('error-list')
-
-      // Check if the error list element is present in the document
-      expect(errorListElement).toBeInTheDocument()
+      const errorListElement = screen.getByTestId('error-list')
 
       // Check if the error list element is visible to the user
       expect(errorListElement).toHaveClass('tw-border-red-400')
@@ -181,6 +186,9 @@ describe('AddTodo component', () => {
       // Render the "AddTodo" component
       render(<AddTodo />)
       
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
+      
       // Find the todo name input element
       const todoNameInputElement = screen.getByTestId('todo-name-input')
       
@@ -190,9 +198,6 @@ describe('AddTodo component', () => {
 
       // Try to find the error list element
       let errorListElement = screen.queryByTestId('error-list')
-      
-      // Check if the error list element is present in the document
-      expect(errorListElement).toBeInTheDocument()
 
       // Check if the error list element is visible to the user
       expect(errorListElement).toHaveClass('tw-border-red-400')
@@ -205,12 +210,15 @@ describe('AddTodo component', () => {
       // Write a valid todo in the input field and click the button
       await userEvent.type(todoNameInputElement, validTodo)
       await userEvent.click(screen.getByTestId('add-todo-button'))
+
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
       
       // Try to find the error list element
       errorListElement = screen.queryByTestId('error-list')
 
       //Check if the error list element is NOT present in the document
-      expect(errorListElement).not.toBeInTheDocument()
+      expect(errorListElement).toBe(null)
 
       // Restore the original implementation
       vi.restoreAllMocks()
@@ -237,6 +245,9 @@ describe('AddTodo component', () => {
       // Render the "AddTodo" component
       render(<AddTodo />)
       
+      // Click the "Add To-Do" button
+      await userEvent.click(screen.getByText(/add to-do/i))
+      
       // Find the todo name input element
       const todoNameInputElement = screen.getByTestId('todo-name-input')
       
@@ -247,9 +258,6 @@ describe('AddTodo component', () => {
       // Try to find the error list and item elements
       let errorListElement = screen.queryByTestId('error-list')
       let errorItemElements = screen.queryAllByTestId('error-item')
-      
-      // Check if the error list element is present in the document
-      expect(errorListElement).toBeInTheDocument()
 
       // Check if the error list and item elements are visible to the user
       expect(errorListElement).toHaveClass('tw-border-red-400')
@@ -271,9 +279,6 @@ describe('AddTodo component', () => {
       // Try to find the error list and item elements
       errorListElement = screen.queryByTestId('error-list')
       errorItemElements = screen.queryAllByTestId('error-item')
-
-      // Check if the error list element is present in the document
-      expect(errorListElement).toBeInTheDocument()
 
       // Check if the error list and item elements are visible to the user
       expect(errorListElement).toHaveClass('tw-border-red-400')
