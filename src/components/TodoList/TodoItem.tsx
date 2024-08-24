@@ -6,18 +6,26 @@ import { Button } from "../ui/button";
 import { Pencil, Save, X } from "lucide-react";
 import { Input } from "../ui/input";
 import DeleteTodoAlertDialog from "../delete-alert-dialog";
+import { Checkbox } from "../ui/checkbox";
 
 interface ITodoItemProps {
   data: ITodo,
 }
 
 export default function TodoItem({ data }: ITodoItemProps) {
-  const { name } = data
-  const { todos, updateTodo } = useTodoContext()
+  const { isCompleted, name } = data
+  const { todos, updateTodo, toggleCompletion } = useTodoContext()
   
+  const [isLocalCompleted, setIsLocalCompleted] = useState<boolean>(isCompleted);
   const [editMode, setEditMode] = useState<boolean>(false)
   const [newTodoName, setNewTodoName] = useState<string>(name)
   const [errors, setErrors] = useState<string[] | null>(null)
+
+  function handleCheckedChange(checked: boolean | string) {
+    toggleCompletion(data.id, Boolean(checked))
+    setIsLocalCompleted(Boolean(checked))
+  }
+
   function handleEditMode() {
     setEditMode(prevEditMode => !prevEditMode)
   }
@@ -42,7 +50,11 @@ export default function TodoItem({ data }: ITodoItemProps) {
     }
     
     // Create the new todo object
-    const updatedTodo = { id: data.id, name: newTodoName }
+    const updatedTodo = { 
+      id: data.id,
+      isCompleted,
+      name: newTodoName 
+    }
 
     // Update the todo item
     updateTodo(updatedTodo, data)
@@ -82,68 +94,74 @@ export default function TodoItem({ data }: ITodoItemProps) {
 
   return (
     <li
-      className="tw-flex tw-items-center md:tw-justify-between tw-gap-4 tw-pb-8 last-of-type:tw-p-0"
+      className="tw-flex tw-items-center tw-justify-between tw-gap-4 tw-pb-8 last-of-type:tw-p-0"
       data-testid="todo-item"
     >
-      {!editMode && (
-        <div 
-          className={`
-            tw-w-full md:tw-w-fit tw-h-10 tw-flex tw-items-center tw-gap-2 tw-py-2 tw-pl-3 tw-pr-0 tw-rounded-md 
-            tw-text-sm tw-cursor-pointer hover:tw-bg-background hover:tw-border 
-            hover:tw-border-input dark:hover:tw-bg-background
-          `}
-          onClick={handleEditMode}
-          data-testid="edit-todo-name"
-        >
-          <p className="tw-peer">{ name }</p>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="tw-hidden md:tw-inline-flex tw-opacity-0 peer-hover:tw-opacity-100"
+      <div className="tw-flex tw-items-center tw-gap-2">
+        <Checkbox
+          checked={isCompleted}
+          onCheckedChange={(checked) => handleCheckedChange(checked)}
+        />
+        {!editMode && (
+          <div 
+            className={`
+              tw-w-full md:tw-w-fit tw-h-10 tw-flex tw-items-center tw-gap-2 tw-py-2 tw-pl-3 tw-pr-0 tw-rounded-md 
+              tw-text-sm tw-cursor-pointer hover:tw-bg-background hover:tw-border 
+              hover:tw-border-input dark:hover:tw-bg-background
+            `}
+            onClick={handleEditMode}
+            data-testid="edit-todo-name"
           >
-            <Pencil className="tw-h-3.5 tw-w-3.5" />
-          </Button>
-        </div>
-      )}
-      {editMode && (
-        <div>
-          <div className="tw-flex tw-items-center tw-gap-4 tw-w-full tw-max-w-2xl">
-            <Input 
-              type="text"
-              name="edit-todo-name-input"
-              autoFocus
-              className="tw-tracking-widest"
-              value={newTodoName}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeNewTodoName(e)} 
-              onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDownEnter(e)}
-              data-testid="edit-todo-name-input"
-            />
+            <p className={`peer ${isLocalCompleted && "tw-line-through"}`}>{ name }</p>
             <Button 
-              type="submit"
-              name="save"
-              size="icon"
-              className="md:tw-w-fit md:tw-px-4 md:tw-py-2"
-              onClick={handleSave}
-              data-testid='edit-save-button'
+              variant="ghost" 
+              size="icon" 
+              className="tw-hidden md:tw-inline-flex tw-opacity-0 peer-hover:tw-opacity-100"
             >
-              <Save className="tw-h-4 tw-w-4"/>
-              <span className="tw-hidden md:tw-block md:tw-ml-0.5">Save</span>
-            </Button>
-            <Button 
-              type="button"
-              variant="secondary"
-              size="icon"
-              className="md:tw-w-fit md:tw-px-4 md:tw-py-2"
-              onClick={handleCancel}
-              data-testid='edit-cancel-button'
-            >
-              <X className="tw-h-4 tw-w-4"/> 
-              <span className="tw-hidden md:tw-block md:tw-ml-0.5">Cancel</span>
+              <Pencil className="tw-h-3.5 tw-w-3.5" />
             </Button>
           </div>
-          {errorResult}
-        </div>
-      )}
+        )}
+        {editMode && (
+          <div>
+            <div className="tw-flex tw-items-center tw-gap-4 tw-w-full tw-max-w-2xl">
+              <Input 
+                type="text"
+                name="edit-todo-name-input"
+                autoFocus
+                className="tw-tracking-widest"
+                value={newTodoName}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeNewTodoName(e)} 
+                onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDownEnter(e)}
+                data-testid="edit-todo-name-input"
+              />
+              <Button 
+                type="submit"
+                name="save"
+                size="icon"
+                className="md:tw-w-fit md:tw-px-4 md:tw-py-2"
+                onClick={handleSave}
+                data-testid='edit-save-button'
+              >
+                <Save className="tw-h-4 tw-w-4"/>
+                <span className="tw-hidden md:tw-block md:tw-ml-0.5">Save</span>
+              </Button>
+              <Button 
+                type="button"
+                variant="secondary"
+                size="icon"
+                className="md:tw-w-fit md:tw-px-4 md:tw-py-2"
+                onClick={handleCancel}
+                data-testid='edit-cancel-button'
+              >
+                <X className="tw-h-4 tw-w-4"/> 
+                <span className="tw-hidden md:tw-block md:tw-ml-0.5">Cancel</span>
+              </Button>
+            </div>
+            {errorResult}
+          </div>
+        )}
+      </div>
       <DeleteTodoAlertDialog id={data.id} />
     </li>
   )

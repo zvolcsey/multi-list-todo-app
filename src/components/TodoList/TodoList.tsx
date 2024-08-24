@@ -15,7 +15,7 @@ export default function TodoList() {
 
   const todoItems = todos.map((todo) => (
     <TodoItem 
-      key={todo.name} 
+      key={todo.name}
       data={todo} 
     />
   ))
