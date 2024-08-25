@@ -32,7 +32,11 @@ export default function AddTodo() {
     }
 
     // Creating the new todo object
-    const newTodo = { id: new Date().getTime(), name: todoName }
+    const newTodo = { 
+      id: new Date().getTime(),
+      isCompleted: false,
+      name: todoName 
+    }
 
     // Send the current todoName to the TodoContext state
     addTodo(newTodo)

@@ -3,10 +3,9 @@ import { render, screen, userEvent, within } from '../testUtilities/testUtils';
 import TodoList from '../../components/TodoList/TodoList';
 
 describe('CRUD todo workflow', () => {
-  it('successfully creates and updates a todo item', async () => {
+  it('successfully creates a todo item', async () => {
     // Create new dummy todos
     const newGroceryTodo = 'Milk'
-    const updatedGroceryTodo = 'Bread'
 
     // Render the "AddTodo" and the "TodoList" components
     render(<TodoList />)
@@ -27,6 +26,17 @@ describe('CRUD todo workflow', () => {
     expect(screen.queryAllByTestId('todo-item')[0]).toHaveTextContent(newGroceryTodo)
     // Check if the default message is NOT in the document
     expect(screen.queryByText(/no tasks/i)).toBe(null)
+  })
+  
+  it('successfully updates a todo item', async () => {
+    // Create a todo item
+    const updatedTodoName = 'bread'
+
+    // Create an initial state for Context API
+    const todoItem = {id: new Date().getTime(), isCompleted: false, name: "milk" }
+
+    // Render the "AddTodo" and the "TodoList" components
+    render(<TodoList />, { initialTodoState: [todoItem] })
 
     // Find the todo item's name on the screen
     const editTodoNameElement = screen.getByTestId('edit-todo-name')
@@ -39,39 +49,22 @@ describe('CRUD todo workflow', () => {
 
     // Clear the input field and enter the new todo item
     await userEvent.clear(editInputElement)
-    await userEvent.type(editInputElement, updatedGroceryTodo)
+    await userEvent.type(editInputElement, updatedTodoName)
     await userEvent.click(screen.getByTestId('edit-save-button'))
     
     // Check if the updated todo item is present in the document
-    expect(screen.getByText(updatedGroceryTodo)).toBeInTheDocument()
+    expect(screen.getByText(updatedTodoName)).toBeInTheDocument()
   })
 
-  it('successfully creates and deletes a todo item', async () => {
-    // Create a new dummy todo
-    const newGroceryTodo = 'Milk'
+  it('successfully deletes a todo item', async () => {
+    // Create an initial state for Context API
+    const todoItem = {id: new Date().getTime(), isCompleted: false, name: "milk" }
 
     // Render the "AddTodo" and the "TodoList" components
-    render(<TodoList />)
+    render(<TodoList />, { initialTodoState: [todoItem] })
     
-    // Check if the default message is present in the document
-    expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
-    
-    // Click the "Add To-Do" button
-    await userEvent.click(screen.getByText(/add to-do/i))
-
-    // Write the todo in the input field and click the button
-    await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
-    await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
-    
-    // Find the todo items on the screen
-    const todoItemElements = screen.queryAllByTestId('todo-item')
-
-    // Check if the todo item element is present in the document
-    expect(screen.queryByTestId('todo-list')).toBeInTheDocument()
-    // Check if the todo item contains the correct text
-    expect(todoItemElements[0]).toHaveTextContent(newGroceryTodo)
-    // Check if the default message is NOT in the document
-    expect(screen.queryByText(/no tasks/i)).toBe(null)
+    // Find the ul tag on the screen
+    const todoItemElements = screen.getAllByTestId('todo-item')
 
     // Find the remove button on the screen
     const removeButton = within(todoItemElements[0]).getByRole('button', { name: /remove/i })
@@ -85,35 +78,18 @@ describe('CRUD todo workflow', () => {
     // Click the delete confirmation button
     await userEvent.click(deleteConfirmationButton)
     
-    // Check if the updated todo item is NOT present in the document
-    expect(screen.queryByText(newGroceryTodo)).toBe(null)
+    // Check if the deleted todo item is NOT present in the document
+    expect(screen.queryByText(todoItem.name)).toBe(null)
   })
-  it('successfully creates and cancels the delete process', async () => {
-    // Create a new dummy todo
-    const newGroceryTodo = 'Milk'
+  it('successfully cancels the delete process', async () => {
+    // Create an initial state for Context API
+    const todoItem = {id: new Date().getTime(), isCompleted: false, name: "milk" }
 
     // Render the "AddTodo" and the "TodoList" components
-    render(<TodoList />)
+    render(<TodoList />, { initialTodoState: [todoItem] })
     
-    // Check if the default message is present in the document
-    expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
-    
-    // Click the "Add To-Do" button
-    await userEvent.click(screen.getByText(/add to-do/i))
-
-    // Write the todo in the input field and click the button
-    await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
-    await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
-    
-    // Find the todo items on the screen
-    const todoItemElements = screen.queryAllByTestId('todo-item')
-
-    // Check if the todo item element is in the document
-    expect(screen.queryByTestId('todo-list')).toBeInTheDocument()
-    // Check if the todo item contains the correct text
-    expect(todoItemElements[0]).toHaveTextContent(newGroceryTodo)
-    // Check if the default message is NOT in the document
-    expect(screen.queryByText(/no tasks/i)).toBe(null)
+    // Find the ul tag on the screen
+    const todoItemElements = screen.getAllByTestId('todo-item')
 
     // Find the remove button on the screen
     const removeButton = within(todoItemElements[0]).getByRole('button', { name: /remove/i })
@@ -128,14 +104,14 @@ describe('CRUD todo workflow', () => {
     await userEvent.click(deleteCancelButton)
     
     // Check if the updated todo item is present in the document
-    expect(screen.queryByText(newGroceryTodo)).toHaveTextContent(newGroceryTodo)
+    expect(screen.queryByText(todoItem.name)).toHaveTextContent(todoItem.name)
   })
   
   it('does not display the invalid todo in the todo list', async () => {
     // Create a new dummy todo
     const newTodo = '#1 Task is cleaning the bathroom'
 
-    // Render the "AddTodo" and the "TodoList" components
+    // Render the "TodoList" components
     render(<TodoList />)
 
     // Check if the default message is in the document
@@ -158,24 +134,19 @@ describe('CRUD todo workflow', () => {
   
   it('does not display the invalid updated todo in the todo list', async () => {
     // Create a new dummy todo
-    const newGroceryTodo = 'Milk'
-    const updatedGroceryTodo = '/'
+    const updatedGroceryTodo = 'm'
+    
+    // Create an initial state for Context API
+    const todoItem = {id: new Date().getTime(), isCompleted: false, name: "milk" }
 
     // Render the "AddTodo" and the "TodoList" components
-    render(<TodoList />)
+    render(<TodoList />, { initialTodoState: [todoItem] })
     
-    // Check if the default message is in the document
-    expect(screen.getByTestId('no-todos-text')).toBeInTheDocument()
-
-    // Click the "Add To-Do" button
-    await userEvent.click(screen.getByText(/add to-do/i))
-
-    // Write the todo in the input field and click the button
-    await userEvent.type(screen.getByTestId('todo-name-input'), newGroceryTodo)
-    await userEvent.click(screen.getByRole('button', { name: /add to-do/i}))
+    // Find the ul tag on the screen
+    const todoItemElements = screen.getAllByTestId('todo-item')
 
     // Find the todo item on the screen
-    const editTodoNameElement = screen.getByTestId('edit-todo-name')
+    const editTodoNameElement = within(todoItemElements[0]).getByTestId('edit-todo-name')
 
     // Click the todo item element
     await userEvent.click(editTodoNameElement)
@@ -194,5 +165,4 @@ describe('CRUD todo workflow', () => {
     // Check if the error list element is present in the document
     expect(screen.queryByTestId('error-list')).toBeInTheDocument()
   })
-
 })
