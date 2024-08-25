@@ -105,14 +105,14 @@ export default function TodoItem({ data }: ITodoItemProps) {
         {!editMode && (
           <div 
             className={`
-              tw-w-full md:tw-w-fit tw-h-10 tw-flex tw-items-center tw-gap-2 tw-py-2 tw-pl-3 tw-pr-0 tw-rounded-md 
-              tw-text-sm tw-cursor-pointer hover:tw-bg-background hover:tw-border 
+              tw-w-full md:tw-w-fit tw-h-10 tw-flex tw-items-center tw-gap-1 tw-py-2 tw-px-2
+              tw-rounded-md tw-text-sm tw-cursor-pointer hover:tw-bg-background hover:tw-border 
               hover:tw-border-input dark:hover:tw-bg-background
             `}
             onClick={handleEditMode}
             data-testid="edit-todo-name"
           >
-            <p className={`peer ${isLocalCompleted && "tw-line-through"}`}>{ name }</p>
+            <p className={`tw-peer ${isLocalCompleted && "tw-line-through"}`}>{ name }</p>
             <Button 
               variant="ghost" 
               size="icon" 
