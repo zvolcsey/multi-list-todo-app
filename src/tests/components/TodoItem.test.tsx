@@ -65,7 +65,7 @@ describe('TodoItem component', () => {
       // Check if the todo is NOT completed
       expect(within(todoItemElements[0]).getByRole('checkbox')).not.toBeChecked()
 
-      // Check if the todo name has NOT line-through style
+      // Check if the todo name has NOT line-through on the todo name
       expect(within(todoItemElements[0]).getByText(todoItem)).not.toHaveClass('tw-line-through')
     })
   })

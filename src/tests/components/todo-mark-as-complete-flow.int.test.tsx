@@ -12,6 +12,8 @@ describe('Mark as complete workflow', () => {
 
       // Find the todo items on the screen
       const todoItemElements = screen.queryAllByTestId('todo-item')
+
+      // Find the checkbox and the to-do name
       const checkBoxElement = within(todoItemElements[0]).getByRole('checkbox')
       const todoNameElement = within(todoItemElements[0]).getByText(todoItem.name)
 
@@ -20,7 +22,7 @@ describe('Mark as complete workflow', () => {
 
       // Check if the checkbox element is checked
       expect(checkBoxElement).toBeChecked()
-      // Check if the todo name element has a line-through style
+      // Check if the todo name element has line-through on the todo name
       expect(todoNameElement).toHaveClass('tw-line-through')
   })
 
@@ -33,6 +35,8 @@ describe('Mark as complete workflow', () => {
 
       // Find the todo items on the screen
       const todoItemElements = screen.queryAllByTestId('todo-item')
+
+      // Find the checkbox and the to-do name
       const checkBoxElement = within(todoItemElements[0]).getByRole('checkbox')
       const todoNameElement = within(todoItemElements[0]).getByText(todoItem.name)
 
@@ -41,7 +45,7 @@ describe('Mark as complete workflow', () => {
 
       // Check if the checkbox element is NOT checked
       expect(checkBoxElement).not.toBeChecked()
-      // Check if the todo name element has not a line-through style
+      // Check if the todo name element has NOT line-through on the todo name
       expect(todoNameElement).not.toHaveClass('tw-line-through')
   })
 })
